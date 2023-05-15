@@ -128,7 +128,6 @@
     "@babel/core": "^7.13.14",
     "@types/node": "^16.4.13",
     "@types/sortablejs": "^1.10.6",
-    "before-build-webpack": "^0.2.12",
     "eslint": "^7.23.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-react": "^7.20.6",
