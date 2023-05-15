@@ -18,6 +18,7 @@ import { User, Mail, CheckSquare, MessageSquare, Settings, CreditCard, HelpCircl
 
 // ** Default Avatar Image
 import defaultAvatar from '@src/assets/images/portrait/small/avatar-s-11.jpg'
+import { nhost } from '../../../../App'
 
 const UserDropdown = () => {
   const history = useHistory()
@@ -35,23 +36,19 @@ const UserDropdown = () => {
   const [userData, setUserData] = useState(null)
 
   //** ComponentDidMount
-  useEffect(() => {
-    if (isUserLoggedIn() !== null) {
-      setUserData(JSON.parse(localStorage.getItem('userData')))
-    }
-  }, [])
-
+  const displayName = nhost.auth.getUser()?.displayName
+  const defaultRole = nhost.auth.getUser()?.defaultRole
   //** Vars
-  const userAvatar = (userData && userData.avatar) || defaultAvatar
+  // const userAvatar = (userData && userData.avatar) || defaultAvatar
 
   return (
     <UncontrolledDropdown tag='li' className='dropdown-user nav-item'>
       <DropdownToggle href='/' tag='a' className='nav-link dropdown-user-link' onClick={e => e.preventDefault()}>
         <div className='user-nav d-sm-flex d-none'>
-          <span className='user-name font-weight-bold'>{(userData?.user?.display_name) || 'John Doe'}</span>
-          <span className='user-status'>{(userData?.user && userData?.user?.default_role) || 'Admin'}</span>
+          <span className='user-name font-weight-bold'>{(displayName) || 'John Doe'}</span>
+          <span className='user-status'>{(defaultRole) || 'User'}</span>
         </div>
-        <Avatar img={userAvatar} imgHeight='40' imgWidth='40' status='online' />
+        <Avatar color='light-primary' content={(displayName) || "admin user"} initials  imgHeight='40' imgWidth='40' status='online' />
       </DropdownToggle>
       <DropdownMenu right>
         <DropdownItem tag={Link} to='#' onClick={e => e.preventDefault()}>

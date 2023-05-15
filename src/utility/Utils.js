@@ -1,3 +1,4 @@
+import { nhost } from "../App"
 import { auth } from "./nhost"
 import {useQuery, useMutation, useLazyQuery} from "@apollo/client"
 // ** Checks if an object is empty (returns boolean)
@@ -51,8 +52,17 @@ export const formatDateToMonthShort = (value, toTimeForCurrentDay = true) => {
  *  ? e.g. If you are using cookies to store the application please update this function
  */
 export const isUserLoggedIn = () => {
-  return auth?.isAuthenticated()
+  const { isAuthenticated, isLoading } = nhost.auth.getAuthenticationStatus()
+  if (isLoading) {
+    console.log('Loading...')
+  }
+  if (isAuthenticated) {
+    return true
+  } else {
+    return false
+  }
 }
+ 
 
 export const getUserData = () => {
   return auth?.currentSession?.session?.user

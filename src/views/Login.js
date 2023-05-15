@@ -3,22 +3,23 @@ import { Link, useHistory } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import InputPasswordToggle from '@components/input-password-toggle'
 import { Alert, Card, CardBody, CardTitle, CardText, Form, FormGroup, Label, Input, CustomInput, Button, Spinner } from 'reactstrap'
-import { auth } from "../utility/nhost"
+// import { auth } from "../utility/nhost"
 
 import '@styles/base/pages/page-auth.scss'
+import { nhost } from "../App"
 
 const LoginV1 = () => {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
   const history = useHistory()
   useEffect(() => {
-    auth.isAuthenticatedAsync().then(status => {
+    nhost.auth.isAuthenticatedAsync().then(status => {
       if (status) {
         history.push('/home')
-        console.log(auth.user().email)
+        console.log(nhost.auth.getUser().email)
 
         window.OneSignal.push(function() {
-          window.OneSignal.setExternalUserId(auth.user().email)
+          window.OneSignal.setExternalUserId(nhost.auth.getUser().email)
         })
       } else {
         setLoading(false)
@@ -28,18 +29,20 @@ const LoginV1 = () => {
   const onSubmit = async (e) => {
     e.preventDefault()
     try { 
-      const data = await auth.login({ email: e.target.elements.email.value, password: e.target.elements.password.value})
-      const decoded = jwt_decode(data.session.jwt_token)
-      if (decoded['https://hasura.io/jwt/claims']['x-hasura-default-role'] === "admin") {
+      const data = await nhost.auth.signIn({ email: e.target.elements.email.value, password: e.target.elements.password.value})
+      // const decoded = jwt_decode(data.session.jwt_token)
+      const companyId = nhost.auth.getHasuraClaim('x-hasura-default-role')
+      if (companyId === "admin") {
         localStorage.setItem('userData', JSON.stringify(data))
         history.push('/home')  
       } else {
-        auth.logout()
+        nhost.auth.signOut()
         alert("User does not have a valid admin account")
         localStorage.clear()
       }
     } catch (e) {
-      setError(e.response.data.message)
+      console.log(e)
+      // setError(e.response.data.message)
     }
 
   }
