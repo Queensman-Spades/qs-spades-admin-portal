@@ -106,6 +106,7 @@
     "sweetalert2-react-content": "3.0.1",
     "swiper": "6.0.4",
     "uppy": "1.21.2",
+    "webpack": "^4.44.2",
     "wnumb": "1.2.0",
     "xlsx": "^0.16.9",
     "xlsx-style": "^0.8.13",
