@@ -3,12 +3,9 @@
 import { gql, useLazyQuery, useMutation, useQuery } from '@apollo/client'
 
 // ** Third Party Components
-import Flatpickr from 'react-flatpickr'
-import { User, Briefcase, Mail, Calendar, X, Check, XCircle } from 'react-feather'
-import * as yup from 'yup'
+import { User, X, Check, XCircle } from 'react-feather'
 import { toast } from "react-toastify"
-import { Controller, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
 import Avatar from '@components/avatar'
 
 // ** Reactstrap Imports
@@ -22,10 +19,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import FileUploaderSingle from './FileUploaderSingle'
 import { useEffect, useState } from 'react'
 import Select from 'react-select'
-import classnames from 'classnames'
-import { storage } from '../../utility/nhost'
-import { useNiceLazyQuery, useNiceMutation, useNiceQuery } from '../../utility/Utils'
-import { HASURA } from '../../_config'
+import { nhost } from '../../App'
+import { useUserDisplayName } from '@nhost/react'
 
 const ADD_NEW_BILL = gql`
 mutation MyMutation($property_id: Int!, $amount: String!, $inserted_by: String!, $image_ids: _text) {
@@ -61,8 +56,7 @@ const AddNewModal = ({ open, handleModal, setModal }) => {
 
   const dispatch = useDispatch()
   // ** State
-  const userData = "admin@queensman.com"
-
+  const displayName = useUserDisplayName()
   const store = useSelector(state => state.bills)
 
   const [clientId, setClientId] = useState(null)
@@ -163,9 +157,14 @@ const AddNewModal = ({ open, handleModal, setModal }) => {
   
           const mapLoop = async () => {
             const promises = store.files.map(async item => {
-              console.log(item)
-              await storage.put(`/bills/${item.name}`, item)
-              return `${HASURA}/storage/o/bills/${item.name}`
+              const res = await nhost.storage.upload({
+                file: item,
+                bucketId: "bills"
+              })
+              const url = await nhost.storage.getPublicUrl({
+                fileId: res.fileMetadata.id
+              })
+              return url
             })
           
             return await Promise.all(promises)
@@ -179,7 +178,7 @@ const AddNewModal = ({ open, handleModal, setModal }) => {
             variables: {
               amount,
               property_id,
-              inserted_by: "admin@queensman.com",
+              inserted_by: displayName,
               image_ids: image_ids == '{}' ? null : image_ids
             }
           })

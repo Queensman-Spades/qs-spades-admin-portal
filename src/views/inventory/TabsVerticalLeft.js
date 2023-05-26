@@ -11,6 +11,7 @@ import axios from "axios"
 import Avatar from "@components/avatar"
 import { DOMAIN, HASURA } from '../../_config'
 import { useNiceMutation, useNiceQuery } from "../../utility/Utils"
+import { nhost } from '../../App'
 
 // Toast Component
 const ToastComponent = ({ title, icon, color }) => (
@@ -250,13 +251,19 @@ const TabsVerticalLeft = ({item, allProperty, GET_INVENTORY}) => {
         setUploadButton(false)
       }, 1000)
       try {
-        await storage.put(`/inventory_report/${pdf.name}`, pdf) //upload in storage
+        const res = await nhost.storage.upload({
+          file: pdf,
+          bucketId: "inventory_report"
+        })
+        const url = await nhost.storage.getPublicUrl({
+          fileId: res.fileMetadata.id
+        })
           setLoading(false)
           await uploadUpdatePDF({variables: { //update file
             id: inventory_report_pdf.id,
-            report_location: `${HASURA}/storage/o/inventory_report/${pdf.name}`
+            report_location: url
           }})
-          setPdfLocation(`${HASURA}/storage/o/inventory_report/${pdf.name}`)
+          setPdfLocation(url)
           toast.success(
             <ToastComponent title="File Uploaded" color="success" icon={<Check />} />,
             {
@@ -282,14 +289,20 @@ const TabsVerticalLeft = ({item, allProperty, GET_INVENTORY}) => {
         setUploadButton(false)
       }, 1000)
       try {
-        await storage.put(`/inventory_report/${pdf.name}`, pdf) //Upload in storage
+        const res = await nhost.storage.upload({
+          file: pdf,
+          bucketId: "inventory_report"
+        })
+        const url = await nhost.storage.getPublicUrl({
+          fileId: res.fileMetadata.id
+        })
           setLoading(false)
           await uploadPDF({variables: { //Add in db
             inventory_report_id: item.id,
             property_id: property.id, 
-            report_location: `${HASURA}/storage/o/inventory_report/${pdf.name}`
+            report_location: url
           }})
-          setPdfLocation(`${HASURA}/storage/o/inventory_report/${pdf.name}`)
+          setPdfLocation(url)
           toast.success(
             <ToastComponent title="File Uploaded" color="success" icon={<Check />} />,
             {

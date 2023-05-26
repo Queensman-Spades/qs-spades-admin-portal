@@ -25,6 +25,7 @@ import classnames from 'classnames'
 import { storage } from '../../utility/nhost'
 import { useNiceLazyQuery, useNiceMutation, useNiceQuery } from '../../utility/Utils'
 import { HASURA } from '../../_config'
+import { useUserDisplayName } from '@nhost/react'
 
 const ADD_NEW_MATERIAL = gql`
 mutation MyMutation(
@@ -82,7 +83,7 @@ const AddNewModal = ({ open, handleModal, setModal }) => {
 
   const dispatch = useDispatch()
   // ** State
-  const userData = "admin@queensman.com"
+  const displayName = useUserDisplayName()
 
   const store = useSelector(state => state.material)
 
@@ -207,7 +208,7 @@ const AddNewModal = ({ open, handleModal, setModal }) => {
               m_used_from_van_aed,
               m_from_order_aed,
               total_price,
-              inserted_by: userData,
+              inserted_by: displayName,
             }
           })
           setSubmitLoading(false)

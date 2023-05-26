@@ -19,6 +19,7 @@ import { User, Mail, CheckSquare, MessageSquare, Settings, CreditCard, HelpCircl
 // ** Default Avatar Image
 import defaultAvatar from '@src/assets/images/portrait/small/avatar-s-11.jpg'
 import { nhost } from '../../../../App'
+import { useUserDefaultRole, useUserDisplayName } from '@nhost/react'
 
 const UserDropdown = () => {
   const history = useHistory()
@@ -36,8 +37,8 @@ const UserDropdown = () => {
   const [userData, setUserData] = useState(null)
 
   //** ComponentDidMount
-  const displayName = nhost.auth.getUser()?.displayName
-  const defaultRole = nhost.auth.getUser()?.defaultRole
+  const displayName = useUserDisplayName()
+  const defaultRole = useUserDefaultRole()
   //** Vars
   // const userAvatar = (userData && userData.avatar) || defaultAvatar
 

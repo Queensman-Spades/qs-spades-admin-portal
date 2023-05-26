@@ -29,6 +29,7 @@ import {
 
 // ** Styles
 import "@styles/react/apps/app-calendar.scss"
+import { useUserDisplayName } from "@nhost/react"
 
 // ** CalendarColors
 const calendarsColor = {
@@ -311,6 +312,7 @@ const REQUEST_CALLOUT = gql`
 `
 
 const CalendarComponent = ({location}) => {
+  const displayName = useUserDisplayName()
   // ** Variables
   // const dispatch = useDispatch()
   // const store = useSelector(state => {
@@ -326,6 +328,9 @@ const CalendarComponent = ({location}) => {
   const [date, setDate] = useState(location?.state?.date || false)
 
   const [updateCallOut] = useNiceMutation(UPDATE_CALLOUT, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "network-only",
     skip: !addSidebarOpen,
     refetchQueries: [
       {
@@ -338,6 +343,9 @@ const CalendarComponent = ({location}) => {
     ]
   })
   const [updateCalloutAndJobTicket] = useNiceMutation(UPDATE_CALLOUT_AND_JOB_TICKET, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "network-only",
     skip: !addSidebarOpen,
     refetchQueries: [
       {
@@ -349,8 +357,16 @@ const CalendarComponent = ({location}) => {
       }
     ]
   })
-  const [updateCallOutDrag] = useNiceMutation(UPDATE_CALLOUT_DRAG)
-  const [deleteCallout] = useNiceMutation(DELETE_CALLOUT)
+  const [updateCallOutDrag] = useNiceMutation(UPDATE_CALLOUT_DRAG, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "network-only"
+  })
+  const [deleteCallout] = useNiceMutation(DELETE_CALLOUT, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "network-only"
+  })
 
   const selectedDates = useRef({
     _gte: new Date().toISOString().split("T")[0],
@@ -363,6 +379,9 @@ const CalendarComponent = ({location}) => {
   const _lte = selectedDates.current._lte
 
   const [getSchedule, { loading, data, refetch}] = useNiceLazyQuery(GET_SCHEDULE, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "network-only",
     skip: !addSidebarOpen,
     variables: {
       _gte,
@@ -389,7 +408,7 @@ const CalendarComponent = ({location}) => {
           date_on_calendar : eventToUpdate.startPicker.toLocaleDateString(),
           end_date_on_calendar: eventToUpdate.endPicker.toLocaleDateString(),
           end_time_on_calendar : eventToUpdate.endPicker.toTimeString().substr(0, 8),
-          updated_by: JSON.parse(localStorage.getItem('userData')).user.display_name
+          updated_by: displayName
         }
       })
     } else if (eventToUpdate?.extendedProps?.status) {
@@ -412,7 +431,7 @@ const CalendarComponent = ({location}) => {
           date_on_calendar : eventToUpdate.startPicker.toLocaleDateString(),
           end_date_on_calendar: eventToUpdate.endPicker.toLocaleDateString(),
           end_time_on_calendar : eventToUpdate.endPicker.toTimeString().substr(0, 8),
-          updated_by: JSON.parse(localStorage.getItem('userData')).user.display_name
+          updated_by: displayName
         }
       })
     }
@@ -428,7 +447,7 @@ const CalendarComponent = ({location}) => {
         end_time_on_calendar : eventToUpdate.endStr.split("T")[1].substr(0, 8),
         blocked: eventToUpdate.extendedProps.blocked,
         scheduler_id: eventToUpdate.id,
-        updated_by: JSON.parse(localStorage.getItem('userData')).user.display_name
+        updated_by: displayName
       }
     })
   }
@@ -471,6 +490,9 @@ const CalendarComponent = ({location}) => {
     requestCalloutApiCall,
     { loading: requestCalloutLoading, error: mutationError }
   ] = useNiceMutation(REQUEST_CALLOUT, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "network-only",
     skip: !addSidebarOpen,
     refetchQueries: [
       {

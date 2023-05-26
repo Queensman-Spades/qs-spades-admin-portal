@@ -4,7 +4,6 @@ import AppCollapse from '@components/app-collapse'
 import moment from "moment"
 import { TabContent, TabPane, Nav, NavItem, NavLink, ListGroup, ListGroupItem, Card, Col, Row, Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Spinner  } from 'reactstrap'
 
-import { auth, storage } from "../../utility/nhost"
 import { toast } from "react-toastify"
 import axios from "axios"
 import { gql, useMutation, useQuery, useLazyQuery } from "@apollo/client"
@@ -12,6 +11,7 @@ import Avatar from "@components/avatar"
 import { Trash, Upload, XCircle, Check } from 'react-feather'
 import { DOMAIN, HASURA } from '../../_config'
 import { useNiceMutation } from '../../utility/Utils'
+import { nhost } from '../../App'
 
 const UPLOAD_CONTRACT = gql`
 mutation AddContractReport($client_id: Int!, $report_location: String = "") {
@@ -116,10 +116,16 @@ const TabsVerticalLeft = ({ item, refetchClient }) => {
         setLoaderButton(true)
       }, 6000)
        try {
-          await storage.put(`/monthly_report/${pdf.name}`, pdf)
+        const res2 = await nhost.storage.upload({
+          file: pdf,
+          bucketId: "contract_report"
+        })
+        const url = await nhost.storage.getPublicUrl({
+          fileId: res2.fileMetadata.id
+        })
           const res = await uploadContract({variables: {
             client_id: item.id, 
-            report_location: `${HASURA}/storage/o/monthly_report/${pdf.name}`
+            report_location: url
           }})
           const result_id = res?.data?.insert_contract_report_one?.id
           const result_client_id = res?.data?.insert_contract_report_one?.client_id

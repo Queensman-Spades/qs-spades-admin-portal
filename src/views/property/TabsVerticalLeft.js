@@ -12,6 +12,7 @@ import { Trash, Upload, XCircle, Check } from 'react-feather'
 import { DivOverlay } from 'leaflet'
 import { DOMAIN, HASURA } from '../../_config'
 import { useNiceMutation } from '../../utility/Utils'
+import { nhost } from '../../App'
 
 const MANAGEMENT_REPORT = gql`
 mutation AddManagementReport($property_id: Int!, $report_location: String = "") {
@@ -166,10 +167,16 @@ const TabsVerticalLeft = ({data, propertyLoading, property_id}) => {
        try {
         switch (reportNumber) {
           case 1: { //MANAGEMENT_REPORT
-            await storage.put(`/management_report/${pdf.name}`, pdf)
+            const res2 = await nhost.storage.upload({
+              file: pdf,
+              bucketId: "management_report"
+            })
+            const url = await nhost.storage.getPublicUrl({
+              fileId: res2.fileMetadata.id
+            })
             const res = await uploadManagementReport({variables: {
               property_id, 
-              report_location: `${HASURA}/storage/o/management_report/${pdf.name}`
+              report_location: url
             }})
             const result_id = res?.data?.insert_management_report_one?.id
             const result_property_id = res?.data?.insert_management_report_one?.property_id
@@ -188,10 +195,16 @@ const TabsVerticalLeft = ({data, propertyLoading, property_id}) => {
               }
             )
           } case 2: { //MARKET_REPORT
-            await storage.put(`/market_report/${pdf.name}`, pdf)
+            const res2 = await nhost.storage.upload({
+              file: pdf,
+              bucketId: "market_report"
+            })
+            const url = await nhost.storage.getPublicUrl({
+              fileId: res2.fileMetadata.id
+            })
             const res = await uploadMarketReport({variables: {
               property_id, 
-              report_location: `${HASURA}/storage/o/market_report/${pdf.name}`
+              report_location: url
             }})
             const result_id = res?.data?.insert_market_report_one?.id
             const result_property_id = res?.data?.insert_market_report_one?.property_id
@@ -210,10 +223,16 @@ const TabsVerticalLeft = ({data, propertyLoading, property_id}) => {
               }
             )
           } case 3: { //MONTHLY_STATUS_REPORT
-            await storage.put(`/monthly_status_report/${pdf.name}`, pdf)
+            const res2 = await nhost.storage.upload({
+              file: pdf,
+              bucketId: "monthly_status_report"
+            })
+            const url = await nhost.storage.getPublicUrl({
+              fileId: res2.fileMetadata.id
+            })
             const res = await uploadMonthlyStatusReport({variables: {
               property_id, 
-              report_location: `${HASURA}/storage/o/monthly_status_report/${pdf.name}`
+              report_location: url
             }})
             const result_id = res?.data?.insert_monthly_services_report_one?.id
             const result_property_id = res?.data?.insert_monthly_services_report_one?.property_id
@@ -234,10 +253,16 @@ const TabsVerticalLeft = ({data, propertyLoading, property_id}) => {
               }
             )
           } case 4: { //MATERIAL_WARRANTY_REPORT
-            await storage.put(`/material_warranty_report/${pdf.name}`, pdf)
+            const res2 = await nhost.storage.upload({
+              file: pdf,
+              bucketId: "material_warranty_report"
+            })
+            const url = await nhost.storage.getPublicUrl({
+              fileId: res2.fileMetadata.id
+            })
             const res = await uploadMaterialWarrantyReport({variables: {
               property_id, 
-              report_location: `${HASURA}/storage/o/material_warranty_report/${pdf.name}`
+              report_location: url
             }})
             const result_id = res?.data?.insert_material_warranty_report_one?.id
             const result_property_id = res?.data?.insert_material_warranty_report_one?.property_id

@@ -27,6 +27,8 @@ import '@styles/react/libs/flatpickr/flatpickr.scss'
 import { useNiceLazyQuery, useNiceMutation, useNiceQuery } from '../../utility/Utils'
 import { HASURA } from '../../_config'
 import { storage } from '../../utility/nhost'
+import { nhost } from '../../App'
+import { useUserDisplayName } from '@nhost/react'
 
 // ** Toast Component
 const ToastComponent = ({ title, icon, color }) => (
@@ -180,7 +182,7 @@ const AddEventSidebar = props => {
       buttonsStyling: false
     })
   }
-
+  const displayName = useUserDisplayName()
   const { register, errors, handleSubmit } = useForm()
 
   // ** States
@@ -283,16 +285,49 @@ onError: (e) => {
  ]
  const uploadImage = async (index) => {
    try {
-  if (picture1.uploadPicture?.name) await storage.put(`/callout_pics/${picture1.uploadPicture.name}`, picture1.uploadPicture)
-  if (picture2.uploadPicture?.name) await storage.put(`/callout_pics/${picture2.uploadPicture.name}`, picture2.uploadPicture)
-  if (picture3.uploadPicture?.name) await storage.put(`/callout_pics/${picture3.uploadPicture.name}`, picture3.uploadPicture)
-  if (picture4.uploadPicture?.name) await storage.put(`/callout_pics/${picture4.uploadPicture.name}`, picture4.uploadPicture)
+    let url1, url2, url3, url4 = null
+  if (picture1.uploadPicture?.name) {
+    const res1 = await nhost.storage.upload({
+      file: picture1.uploadPicture,
+      bucketId: "callout"
+    })
+    url1 = await nhost.storage.getPublicUrl({
+      fileId: res1.fileMetadata.id
+    })
+  }
+  if (picture2.uploadPicture?.name) {
+    const res2 = await nhost.storage.upload({
+      file: picture2.uploadPicture,
+      bucketId: "callout"
+    })
+    url2 = await nhost.storage.getPublicUrl({
+      fileId: res2.fileMetadata.id
+    })
+  }
+  if (picture3.uploadPicture?.name) {
+    const res3 = await nhost.storage.upload({
+      file: picture3.uploadPicture,
+      bucketId: "callout"
+    })
+    url3 = await nhost.storage.getPublicUrl({
+      fileId: res3.fileMetadata.id
+    })
+  }
+  if (picture4.uploadPicture?.name) {
+    const res4 = await nhost.storage.upload({
+      file: picture4.uploadPicture,
+      bucketId: "callout"
+    })
+    url4 = await nhost.storage.getPublicUrl({
+      fileId: res4.fileMetadata.id
+    })
+  }
   const res = await addCalloutPicture({variables: {
     id: selectedEvent?.extendedProps?.callout_id,
-    picture1: picture1.uploadPicture ? `${HASURA}/storage/o/callout_pics/${picture1.uploadPicture.name}` : picture1.picture,
-    picture2: picture2.uploadPicture ? `${HASURA}/storage/o/callout_pics/${picture2.uploadPicture.name}` : picture2.picture,
-    picture3: picture3.uploadPicture ? `${HASURA}/storage/o/callout_pics/${picture3.uploadPicture.name}` : picture3.picture,
-    picture4: picture4.uploadPicture ? `${HASURA}/storage/o/callout_pics/${picture4.uploadPicture.name}` : picture4.picture
+    picture1: picture1.uploadPicture ? url1 : picture1.picture,
+    picture2: picture2.uploadPicture ? url2 : picture2.picture,
+    picture3: picture3.uploadPicture ? url3 : picture3.picture,
+    picture4: picture4.uploadPicture ? url4 : picture4.picture
   }})
   console.log(res)
   setPicture1({picture:res.data.update_callout_by_pk.picture1, uploadPicture:null })
@@ -374,7 +409,7 @@ onError: (e) => {
         blocked,
         urgency_level: "Medium",
         worker_id: workerId,
-        inserted_by: JSON.parse(localStorage.getItem('userData')).user.display_name
+        inserted_by: displayName
         // ...pictures,
       }
     }).then((res) => {
