@@ -36,6 +36,7 @@ const NavbarUser = props => {
           </NavLink>
         </NavItem>
       </div>
+      <h1>Version 2</h1>
       <ul className='nav navbar-nav align-items-center ml-auto'>
         <UserDropdown />
       </ul>

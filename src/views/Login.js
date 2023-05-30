@@ -58,7 +58,7 @@ const LoginV1 = () => {
         <Card className='mb-0'>
           <CardBody>
             <Link className='brand-logo' to='/' onClick={e => e.preventDefault()}>
-              <h2 className='brand-text text-primary ml-1'>Queensman</h2>
+              <h2 className='brand-text text-primary ml-1'>Queensman (Version 2)</h2>
             </Link>
             <CardTitle tag='h4' className='mb-1'>
               Welcome to Queensman! 👋

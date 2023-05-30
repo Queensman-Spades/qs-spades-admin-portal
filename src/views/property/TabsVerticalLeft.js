@@ -10,7 +10,6 @@ import { gql, useMutation, useQuery, useLazyQuery } from "@apollo/client"
 import Avatar from "@components/avatar"
 import { Trash, Upload, XCircle, Check } from 'react-feather'
 import { DivOverlay } from 'leaflet'
-import { DOMAIN, HASURA } from '../../_config'
 import { useNiceMutation } from '../../utility/Utils'
 import { nhost } from '../../App'
 

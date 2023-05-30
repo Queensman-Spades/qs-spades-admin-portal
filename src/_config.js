@@ -11,25 +11,16 @@
 // https://y8sr1kom3g.execute-api.us-east-1.amazonaws.com/dev/
 
 
-const NHOST_STAGING = 'cf57bf4d'
-const NHOST_PROD = '8106d23e'
 const SERVERLESS_STAGING = 'y8sr1kom3g'
 const SERVERLESS_PROD = 'meqmfvxx0d'
 
 let DOMAIN = ``
-let HASURA = ``
-let ENDPOINT = ``
-
 if (process.env.REACT_APP_VERCEL_ENV === 'production') {
     console.log("prod")
     DOMAIN = `https://${SERVERLESS_PROD}.execute-api.us-east-1.amazonaws.com/production`
-    HASURA = `https://backend-${NHOST_PROD}.nhost.app`
-    ENDPOINT = `https://hasura-${NHOST_PROD}.nhost.app/v1/graphql`
 } else {
     console.log("Dev")
     DOMAIN = `https://${SERVERLESS_STAGING}.execute-api.us-east-1.amazonaws.com/dev`
-    HASURA = `https://backend-${NHOST_STAGING}.nhost.app`
-    ENDPOINT = `https://hasura-${NHOST_STAGING}.nhost.app/v1/graphql`
 }
 module.exports = {
     DOMAIN,
