@@ -9,7 +9,7 @@ import moment from 'moment'
 import { toast } from "react-toastify"
 import axios from "axios"
 import Avatar from "@components/avatar"
-import { DOMAIN, HASURA } from '../../_config'
+import { DOMAIN } from '../../_config'
 import { useNiceMutation, useNiceQuery } from "../../utility/Utils"
 import { nhost } from '../../App'
 

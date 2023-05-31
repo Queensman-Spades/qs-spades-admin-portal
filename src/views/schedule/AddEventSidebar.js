@@ -25,8 +25,6 @@ import { selectThemeColors, isObjEmpty } from '@utils'
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import { useNiceLazyQuery, useNiceMutation, useNiceQuery } from '../../utility/Utils'
-import { HASURA } from '../../_config'
-import { storage } from '../../utility/nhost'
 import { nhost } from '../../App'
 import { useUserDisplayName } from '@nhost/react'
 

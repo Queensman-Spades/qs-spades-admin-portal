@@ -23,9 +23,7 @@ if (process.env.REACT_APP_VERCEL_ENV === 'production') {
     DOMAIN = `https://${SERVERLESS_STAGING}.execute-api.us-east-1.amazonaws.com/dev`
 }
 module.exports = {
-    DOMAIN,
-    HASURA,
-    ENDPOINT
+    DOMAIN
     //  DOMAIN: "https://meqmfvxx0d.execute-api.us-east-1.amazonaws.com/production"
     // Change domain to above url for produciton dev
 }
