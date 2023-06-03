@@ -83,6 +83,7 @@ import axios from "axios"
 import TabsVerticalLeft from "./TabsVerticalLeft"
 import { useNiceMutation, useNiceQuery } from "../../utility/Utils"
 import Exportqs from "../extensions/import-export/ExportqsClient"
+import { nhost } from "../../App"
 
 const GET_CLIENT = gql`
   query GetClient {
@@ -285,13 +286,6 @@ const DELETE_PLAN = gql`
   }
 `
 
-const UPDATE_ACTIVE = gql`
-mutation MyMutation($active: Boolean!, $email: citext!) {
-  update_auth_accounts(where: {email: {_eq: $email}}, _set: {active: $active}) {
-    affected_rows
-  }
-}
-`
 const GET_WORKER = gql`
 query GetWorker($_eq: String!) {
   worker(where: {email: {_eq: $_eq}}) {
@@ -337,7 +331,6 @@ const DataTableAdvSearch = () => {
     { refetchQueries: [{ query: GET_CLIENT }] }
   )
   const [addPlan, { loading: addPlanLoading }] = useNiceMutation(UPLOAD_PLAN)
-  const [updateClientActive] = useNiceMutation(UPDATE_ACTIVE)
   const [deletePlan, { loading: deletePlanLoading }] = useNiceMutation(DELETE_PLAN)
   const [updateClientPlan] = useNiceMutation(UPDATE_CLIENT_HASPLAN, { refetchQueries: [{ query: GET_CLIENT }] })
   const [modal, setModal] = useState(false)
@@ -932,30 +925,6 @@ const DataTableAdvSearch = () => {
     }, 200);
   };
 
-  const updateActive = async (active, row) => {
-    try {
-      await updateClientActive({
-        variables: {
-          email: row?.email,
-          active
-        }
-      })
-    } catch (e) {
-      console.log(e)
-      toast.error(
-        <ToastComponent
-          title="No admin rights"
-          color="danger"
-          icon={<XCircle />}
-        />,
-        {
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeButton: false,
-        }
-      );
-    }
-  }
   const handleAddRecord = async (newRow, redirect = false) => {
     console.log(redirect)
     setQueryLoading(true)
@@ -982,12 +951,14 @@ const DataTableAdvSearch = () => {
         },
       })
       console.log("client added")
+      console.log(newRow?.clientType, "client type")
       if (newRow?.clientType === "Client") {
-        await auth.register({
+        const res = await nhost.auth.signUp({
           email: newRow.email.toLowerCase(),
           password: "0000", // newRow.password,
-          options: { userData: { display_name: newRow.full_name } },
+          options: { display_name: newRow.full_name.trim() },
         });
+        console.log(res)
         console.log("client registerd")
         toast.success(<SuccessToast data={newRow} />, { hideProgressBar: true })
   
@@ -1474,7 +1445,6 @@ const DataTableAdvSearch = () => {
         row={row}
         setRow={setRow}
         handleUpdate={handleUpdate}
-        updateActive={updateActive}
       />
       <div className="theme-modal-danger">
         <Modal

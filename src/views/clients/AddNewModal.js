@@ -76,8 +76,7 @@ const AddNewModal = ({
   closeModal,
   handleUpdate,
   toAddNewRecord,
-  handleAddRecord,
-  updateActive
+  handleAddRecord
 }) => {
   const [updatePassword, { data, loading, error }] = useNiceMutation(
     updatePasswordGql,
@@ -203,9 +202,6 @@ const AddNewModal = ({
 
   const onSubmit = () => {
     // setRow(row)
-    if (changeActive) {
-      updateActive(active, row)
-    }
     if (toAddNewRecord) {
       // setRedirectModal(true)
       handleAddRecord(row)
