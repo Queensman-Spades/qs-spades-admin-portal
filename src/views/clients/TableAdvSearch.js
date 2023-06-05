@@ -952,7 +952,7 @@ const DataTableAdvSearch = () => {
       })
       console.log("client added")
       console.log(newRow?.clientType, "client type")
-      if (newRow?.clientType === "Client") {
+      if (newRow?.client_type === "Client") {
         console.log("client registerd")
         toast.success(<SuccessToast data={newRow} />, { hideProgressBar: true })
   
