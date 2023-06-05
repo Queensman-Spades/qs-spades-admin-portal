@@ -46,16 +46,16 @@ import { gql, useMutation } from "@apollo/client"
 import { useNiceMutation } from "../../utility/Utils"
 
 const updatePasswordGql = gql`
-  mutation UpdatePassword($email: citext = "", $password_hash: String = "") {
-    update_auth_accounts(
-      where: { email: { _eq: $email } }
-      _set: { password_hash: $password_hash }
-    ) {
-      returning {
-        email
-      }
+mutation UpdatePassword($email: citext = "", $password_hash: String = "") {
+  updateUsers(
+    where: { email: { _eq: $email } }
+    _set: { passwordHash: $password_hash }
+  ) {
+    returning {
+      email
     }
   }
+}
 `
 
 // ** Toast Component
