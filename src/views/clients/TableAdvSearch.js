@@ -953,20 +953,14 @@ const DataTableAdvSearch = () => {
       console.log("client added")
       console.log(newRow?.clientType, "client type")
       if (newRow?.clientType === "Client") {
-        const res = await nhost.auth.signUp({
-          email: newRow.email.toLowerCase(),
-          password: "0000", // newRow.password,
-          options: { display_name: newRow.full_name.trim() },
-        });
-        console.log(res)
         console.log("client registerd")
         toast.success(<SuccessToast data={newRow} />, { hideProgressBar: true })
   
         const url = `${DOMAIN}/sendWelcomeEmail`;
         const data = new URLSearchParams()
-        data.set('clientName', newRow.full_name)
-        data.set('clientEmail', newRow.email)
-        data.set('clientPassword', '0000')
+        data.set('clientName', newRow.full_name.trim())
+        data.set('clientEmail', newRow.email.toLowerCase())
+        data.set('clientPassword', '112233445')
   
         await fetch(url, {
           method: 'POST',
