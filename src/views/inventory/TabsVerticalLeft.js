@@ -12,6 +12,7 @@ import Avatar from "@components/avatar"
 import { DOMAIN } from '../../_config'
 import { useNiceMutation, useNiceQuery } from "../../utility/Utils"
 import { nhost } from '../../App'
+import { useUserEmail } from '@nhost/react'
 
 // Toast Component
 const ToastComponent = ({ title, icon, color }) => (
@@ -79,7 +80,7 @@ const TabsVerticalLeft = ({item, allProperty, GET_INVENTORY}) => {
   }
   const [active, setActive] = useState("1")
   const [loading, setLoading] = useState(false)
-  const userName = JSON.parse(localStorage.getItem('userData')).user.email
+  const userEmail = useUserEmail()
   const [declineModal, setDeclineModal] = useState(false)
   const [approveModal, setApproveModal] = useState(false)
   const [approveStatus, setApproveStatus] = useState(item?.approved)
@@ -477,7 +478,7 @@ const TabsVerticalLeft = ({item, allProperty, GET_INVENTORY}) => {
             { (reviewStageLoading || unApproveStageLoading || approvalStageLoading || approveStageLoading || uploadPDFLoading || uploadUpdatePDFLoading || loading) && <Spinner color='primary' />}
           </div>
           {/* To upload files */}
-        {userName === "ffakhri@queensman.com" ? <div className="mr-2"> 
+        {userEmail === "ffakhri@queensman.com" ? <div className="mr-2"> 
         <Row>
           <Col md="2">
           <div>Status</div>
@@ -573,7 +574,7 @@ const TabsVerticalLeft = ({item, allProperty, GET_INVENTORY}) => {
           
         </Row> 
         {/* admin role */}
-        </div> : userName === "opscord@queensman.com" ? <div className="mr-2"> 
+        </div> : userEmail === "opscord@queensman.com" ? <div className="mr-2"> 
         <Row>
           <Col md="2">
           <div>Status</div>
@@ -646,7 +647,7 @@ const TabsVerticalLeft = ({item, allProperty, GET_INVENTORY}) => {
           </Col>
         </Row>
         {/* Super Admin Role */}
-        </div> : userName === "opsmanager@queensman.com" ? <div className="mr-2"> 
+        </div> : userEmail === "opsmanager@queensman.com" ? <div className="mr-2"> 
         <Row>
           <Col md="2">
           <div>Status</div>
