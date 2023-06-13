@@ -86,61 +86,64 @@ import Exportqs from "../extensions/import-export/ExportqsClient"
 import { nhost } from "../../App"
 
 const GET_CLIENT = gql`
-  query GetClient {
-    client(order_by: { id: desc }) {
+query GetClient {
+  client(order_by: {id: desc}) {
+    id
+    email
+    full_name
+    gender
+    occupation
+    organization
+    phone
+    active
+    hasPlan
+    sec_email
+    sec_phone
+    account_type
+    age_range
+    family_size
+    ages_of_children
+    earning_bracket
+    nationality
+    years_expatriate
+    years_native
+    referred_by
+    other_properties
+    contract_start_date
+    contract_end_date
+    sign_up_time
+    client_type
+    contract_reports {
       id
-      email
-      full_name
-      gender
-      occupation
-      organization
-      phone
-      active
-      hasPlan
-      sec_email
-      sec_phone
-      account_type
-      age_range
-      family_size
-      ages_of_children
-      earning_bracket
-      nationality
-      years_expatriate
-      years_native
-      referred_by
-      other_properties
-      contract_start_date
-      contract_end_date
-      sign_up_time
-      client_type
-      contract_reports {
+      report_location
+      report_upload_date
+    }
+    documents {
+      document_name
+    }
+    property_owneds {
+      property {
+        address
+        community
+        city
+        country
         id
-        report_location
-        report_upload_date
-      }
-      documents {
-        document_name
-      }
-      property_owneds {
-        property {
-          address
-          community
-          city
-          country
-          id
-        }
-      }
-      leases {
-        property {
-          address
-          community
-          city
-          country
-          id
-        }
       }
     }
+    leases {
+      property {
+        address
+        community
+        city
+        country
+        id
+      }
+    }
+    user {
+      defaultRole
+    }
   }
+}
 `
 
 const UPDATE_CLIENT = gql`
@@ -744,7 +747,9 @@ const DataTableAdvSearch = () => {
       minWidth: "160px",
       cell: (row) => {
         const [eye, setEye] = useState(true);
-        if (row?.account_type && row?.account_type !== "null") {
+        if (row?.user?.defaultRole == "admin") {
+          return <div>Admin</div>;
+         } else if(row?.account_type && row?.account_type !== "null") {
           return <div>{row?.account_type}</div>;
         } else {
           return <div>Null</div>;

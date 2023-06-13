@@ -530,7 +530,7 @@ const AddNewModal = ({
             )}
             <Row>
               <Col>
-                {!toAddNewRecord && (
+                {!toAddNewRecord && row?.user?.defaultRole !== "admin" && (
                   <FormGroup>
                     <Button
                       color="info"

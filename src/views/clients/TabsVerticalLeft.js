@@ -375,7 +375,7 @@ const TabsVerticalLeft = ({ item, refetchClient }) => {
           <h5>Client Details</h5>
           <ListGroup flush>
             {item && Object.keys(item).map((itemKey) => {
-              if (!["documents", "property_owneds", "hasPlan", "leases", "contract_reports", "__typename"].includes(itemKey)) {
+              if (!["documents", "property_owneds", "hasPlan", "leases", "contract_reports", "user", "__typename"].includes(itemKey)) {
                 return (
                   <ItemValue item={item} itemKey={itemKey} />
                 )
