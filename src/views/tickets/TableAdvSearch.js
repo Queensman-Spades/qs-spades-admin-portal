@@ -660,6 +660,7 @@ const DataTableAdvSearch = () => {
       objectsToExport.push({
         id: DataTojson[keys]?.callout_id,
         callout_by: DataTojson[keys]?.callout?.client?.email,
+        property_id: DataTojson[keys]?.callout?.property?.id,
         property_type: DataTojson[keys]?.callout?.property?.address,
         job_category: DataTojson[keys]?.callout?.job_type_rel?.skill_parent_rel?.skill_name || DataTojson[keys]?.callout?.job_type,
         job_type: DataTojson[keys]?.callout?.job_type || null,
