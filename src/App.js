@@ -3,7 +3,8 @@ import { NhostClient, NhostReactProvider } from '@nhost/react'
 import { NhostApolloProvider } from '@nhost/react-apollo'
 
 export const nhost = new NhostClient({
-  backendUrl: "https://afffizpkmbpnaltsfgdp.nhost.run",
+  subdomain: "afffizpkmbpnaltsfgdp",
+  region: "ap-south-1",
   clientStorageType: "localStorage",
   autoSignIn: true,
   autoRefreshToken: true
