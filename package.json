@@ -26,7 +26,6 @@
     "availity-reactstrap-validation-safe": "2.6.1",
     "axios": "0.21.1",
     "axios-mock-adapter": "1.19.0",
-    "babel-loader": "^8.1.0",
     "babel-plugin-react-intl": "5.1.18",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.5.2",
