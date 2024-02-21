@@ -3,8 +3,8 @@
 //Template config options
 const themeConfig = {
   app: {
-    appName: 'Queensman',
-    appLogoImage: require('@src/assets/images/logo/qslogo3.png').default
+    appName: 'Task Mate',
+    appLogoImage: require('@src/assets/images/logo/TaskmatePNG.png').default
   },
   layout: {
     isRTL: false,

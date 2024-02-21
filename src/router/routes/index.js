@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 
 // ** Document title
-const TemplateTitle = '%s - Queensman Admin Panel'
+const TemplateTitle = '%s - Task Mate Admin Panel'
 
 // ** Default Route
 const DefaultRoute = '/home'

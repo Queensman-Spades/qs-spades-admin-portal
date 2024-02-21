@@ -392,7 +392,7 @@ const TabsVerticalLeft = ({ item, refetchClient }) => {
           <CollapseDefault data={lease_modified} />
         </TabPane>
         <TabPane tabId='4'>
-        <h1>Contract Queensman</h1>
+        <h1>Contract Task Mate</h1>
         <ListGroup flush>
             {contract_local?.length > 0 ? <ReportList item={contract_local} /> : <div>No data Available</div>}
             <div className="mt-2">

@@ -58,10 +58,10 @@ const LoginV1 = () => {
         <Card className='mb-0'>
           <CardBody>
             <Link className='brand-logo' to='/' onClick={e => e.preventDefault()}>
-              <h2 className='brand-text text-primary ml-1'>Queensman (Version 2)</h2>
+              <h2 className='brand-text text-primary ml-1'>Task Mate (Version 2)</h2>
             </Link>
             <CardTitle tag='h4' className='mb-1'>
-              Welcome to Queensman! 👋
+              Welcome to Task Mate! 👋
             </CardTitle>
             <CardText className='mb-2'>Please sign-in to your account</CardText>
             <Form className='auth-login-form mt-2' onSubmit={onSubmit}>
