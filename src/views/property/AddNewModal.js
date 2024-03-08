@@ -136,17 +136,15 @@ const { register, errors, handleSubmit } = useForm()
       </Col>
       <Col>
       <FormGroup>
-        <Label for='country'>Country<span style={{color: "Red"}}> *</span></Label>
+        <Label for='country'>Country</Label>
           <Input id='country' placeholder='Enter Country here' name="country" value={row?.country} onChange={handleChange}   
-           innerRef={register({ required: true })}
           invalid={errors?.country && true}/>
       </FormGroup>
       </Col>
       <Col>
       <FormGroup>
-        <Label for='city'>City<span style={{color: "Red"}}> *</span></Label>
+        <Label for='city'>City</Label>
           <Input id='city' placeholder='Enter City here' name="city" value={row?.city} onChange={handleChange}   
-           innerRef={register({ required: true })}
           invalid={errors?.city && true}/>
       </FormGroup>
       </Col>
@@ -155,18 +153,16 @@ const { register, errors, handleSubmit } = useForm()
       <Row>
         <Col>
         <FormGroup>
-        <Label for='community'>Community<span style={{color: "Red"}}> *</span></Label>
+        <Label for='community'>Community</Label>
           <Input community='community' placeholder='Enter Community here' name="community" value={row?.community} onChange={handleChange}
-           innerRef={register({ required: true })}
           invalid={errors?.community && true}
           />
       </FormGroup>
       </Col>
       <Col>
       <FormGroup>
-        <Label for='address'>Address<span style={{color: "Red"}}> *</span></Label>
+        <Label for='address'>Address</Label>
           <Input id='address' placeholder='Enter Address here' name="address" value={row?.address} onChange={handleChange}   
-           innerRef={register({ required: true })}
           invalid={errors?.address && true}/>
       </FormGroup>
       
@@ -192,171 +188,14 @@ const { register, errors, handleSubmit } = useForm()
       </Col>
       </Row>
       {/* Fourth row */}
-      <Row>
-      <Col sm="3">
-      <FormGroup>
-        <Label for='owned'>Property Owned</Label>
-          <Input id='owned' placeholder='Owned' name="owned" disabled />
-      </FormGroup>
-      </Col>
-      <Col sm="9">
-      <FormGroup>
-      <Label>Client Name</Label>
-          <Select
-              isClearable={false}
-              theme={selectThemeColors}
-              defaultValue={clientOwnedArray}
-              isMulti
-              name='clientOwned'
-              onChange={(e) => setclientOwnedArray(e)}
-              options={clientOptions}
-              className='react-select'
-              classNamePrefix='select'
-            />
-      </FormGroup>
-      </Col>
-      </Row>
+  
       {/* Fifth Row */}
       <Row>
-      <Col sm="3">
-      <FormGroup>
-        <Label for='leased'>Property Leased</Label>
-          <Input id='leased' placeholder='Leased' name="leased" onChange={handleChange} disabled />
-      </FormGroup>
-      </Col>
-      <Col sm="9">
-      <FormGroup>
-      <Label>Client Name</Label>
-          <Select
-              isClearable={false}
-              theme={selectThemeColors}
-              defaultValue={clientLeasedArray}
-              isMulti
-              name='clientLeased'
-              onChange={(e) => setclientLeasedArray(e)}
-              options={clientOptions}
-              className='react-select'
-              classNamePrefix='select'
-            />
-      </FormGroup>
-      </Col>
+
+
       </Row>
       {/* Sixth Row */}
-      {clientLeasedArray.length > 0 ? <Row>
-        <Col>
-        <FormGroup>
-        <Label for='lease_start_date'>Lease Start Date<span style={{color: "Red"}}> *</span></Label>
-          <InputGroup>
-            <InputGroupAddon addonType='prepend'>
-              <InputGroupText>
-                <Calendar size={15} />
-              </InputGroupText>
-            </InputGroupAddon>
-            <Flatpickr
-               required
-               id='lease_start_date'
-                //tag={Flatpickr}
-               name='lease_start_date'
-               className='form-control'
-               onChange={(date, dateStr, instance) => {
-                setLease_start_date(dateStr)
-                
-               }}
-               value={lease_start_date}
-               options={{
-                 dateFormat: 'Y-m-d'
-               }}
-               placeholder='Lease Start Date'
-             />
-            {/* <Input id='contract_start_date' placeholder='Contract Start Date' name="contract_start_date" value={row?.contract_start_date} onChange={handleChange}/> */}
-          </InputGroup>
-        </FormGroup>
-        </Col>
-        <Col>
-        <FormGroup>
-        <Label for='lease_end_date'>Lease End Date<span style={{color: "Red"}}> *</span></Label>
-          <InputGroup>
-            <InputGroupAddon addonType='prepend'>
-              <InputGroupText>
-                <Calendar size={15} />
-              </InputGroupText>
-            </InputGroupAddon>
-            <Flatpickr
-               required
-               id='lease_end_date'
-                //tag={Flatpickr}
-               name='lease_end_date'
-               className='form-control'
-               onChange={(date, dateStr, instance) => {
-                setLease_end_date(dateStr)
-               }}
-               value={lease_end_date}
-               options={{
-                 dateFormat: 'Y-m-d'
-               }}
-               placeholder='Contract End Date'
-             />
-            {/* <Input id='contract_end_date' placeholder='Contract End Date' name="contract_end_date" value={row?.contract_end_date} onChange={handleChange}/> */}
-          </InputGroup>
-        </FormGroup>
-        </Col>
-      </Row> : <Row>
-        <Col>
-        <FormGroup>
-        <Label for='lease_start_date'>Lease Start Date</Label>
-          <InputGroup>
-            <InputGroupAddon addonType='prepend'>
-              <InputGroupText>
-                <Calendar size={15} />
-              </InputGroupText>
-            </InputGroupAddon>
-            <Flatpickr
-               id='lease_start_date'
-                //tag={Flatpickr}
-               name='lease_start_date'
-               className='form-control'
-               onChange={(date, dateStr, instance) => {
-                setLease_start_date(dateStr)
-                
-               }}
-               value={lease_start_date}
-               options={{
-                 dateFormat: 'Y-m-d'
-               }}
-               placeholder='Lease Start Date'
-             />
-            {/* <Input id='contract_start_date' placeholder='Contract Start Date' name="contract_start_date" value={row?.contract_start_date} onChange={handleChange}/> */}
-          </InputGroup>
-        </FormGroup>
-        </Col>
-        <Col>
-        <FormGroup>
-        <Label for='lease_end_date'>Lease End Date</Label>
-          <InputGroup>
-            <InputGroupAddon addonType='prepend'>
-              <InputGroupText>
-                <Calendar size={15} />
-              </InputGroupText>
-            </InputGroupAddon>
-            <Flatpickr
-               id='lease_end_date'
-                //tag={Flatpickr}
-               name='lease_end_date'
-               className='form-control'
-               onChange={(date, dateStr, instance) => {
-                setLease_end_date(dateStr)
-               }}
-               value={lease_end_date}
-               options={{
-                 dateFormat: 'Y-m-d'
-               }}
-               placeholder='Contract End Date'
-             />
-            {/* <Input id='contract_end_date' placeholder='Contract End Date' name="contract_end_date" value={row?.contract_end_date} onChange={handleChange}/> */}
-          </InputGroup>
-        </FormGroup>
-        </Col>
-      </Row> }
+
       <div className="row justify-content-center">
       <Button className='mr-1' color='primary' type="submit" >
         {toAddNewRecord ? 'Submit' : 'Update'}
